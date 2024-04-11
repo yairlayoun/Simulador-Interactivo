@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Créditos</title>
+    <script src="js/simulador.js" defer></script>
+    <!-- Aquí puedes incluir cualquier otro archivo CSS o JavaScript necesario -->
+</head>
+<body>
+    <h1>Simulador de Créditos</h1>
+    <form id="creditForm">
+        <label for="loanAmount">Monto del crédito:</label>
+        <input type="number" id="loanAmount" required>
+
+        <label for="interestRate">Tasa de interés (% mensual):</label>
+        <input type="number" id="interestRate" step="0.01" required>
+
+        <label for="loanTerm">Plazo (meses):</label>
+        <input type="number" id="loanTerm" required>
+
+        <button type="button" id="calculateBtn">Calcular Pago Mensual</button>
+    </form>
+
+    <div id="result"></div>
+</body>
+</html>
