@@ -1,26 +1,24 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Función para calcular el pago mensual del crédito
-    function calcularPagoMensual() {
-        var montoCredito = parseFloat(document.getElementById('loanAmount').value);
-        var tasaInteres = parseFloat(document.getElementById('interestRate').value);
-        var plazoMeses = parseInt(document.getElementById('loanTerm').value);
+// Función para calcular el pago mensual del crédito
+function calcularPagoMensual() {
+    // Capturar entradas mediante prompt()
+    const montoCredito = parseFloat(prompt("Ingrese el monto del crédito:"));
+    const tasaInteres = parseFloat(prompt("Ingrese la tasa de interés (% mensual):"));
+    const plazoMeses = parseInt(prompt("Ingrese el plazo en meses:"));
 
-        // Validar que los campos no estén vacíos y que los valores sean válidos
-        if (isNaN(montoCredito) || isNaN(tasaInteres) || isNaN(plazoMeses) || montoCredito <= 0 || tasaInteres <= 0 || plazoMeses <= 0) {
-            alert('Por favor ingrese valores válidos en todos los campos.');
-            return;
-        }
-
-        var interesMensual = tasaInteres / 100;
-        var cuotaFija = (montoCredito * interesMensual) / (1 - Math.pow(1 + interesMensual, -plazoMeses));
-
-        var resultadoDiv = document.getElementById('result');
-        resultadoDiv.innerHTML = '';
-        resultadoDiv.innerHTML += '<h2>Resultado:</h2>';
-        resultadoDiv.innerHTML += '<p>Pago mensual del crédito: $' + cuotaFija.toFixed(2) + '</p>';
+    // Validar que los valores ingresados sean válidos
+    if (isNaN(montoCredito) || isNaN(tasaInteres) || isNaN(plazoMeses) || montoCredito <= 0 || tasaInteres <= 0 || plazoMeses <= 0) {
+        alert('Por favor ingrese valores válidos en todos los campos.');
+        return;
     }
 
-    // Agregar evento click al botón de calcular
-    var calculateBtn = document.getElementById('calculateBtn');
-    calculateBtn.addEventListener('click', calcularPagoMensual);
-});
+    // Calcular el pago mensual del crédito
+    const interesMensual = tasaInteres / 100;
+    const cuotaFija = (montoCredito * interesMensual) / (1 - Math.pow(1 + interesMensual, -plazoMeses));
+
+    // Efectuar una salida del resultado utilizando alert()
+    const mensaje = "Pago mensual del crédito: $" + cuotaFija.toFixed(2);
+    alert(mensaje);
+}
+
+// Llamar a la función para calcular el pago mensual del crédito
+calcularPagoMensual();
