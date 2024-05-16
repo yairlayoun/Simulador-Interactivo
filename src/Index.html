@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulador de Créditos</title>
-    <link rel="stylesheet" href="styles.css">
     <script src="js/simulador.js" defer></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
@@ -26,10 +26,75 @@
                 <input type="number" id="loanTerm" class="form-control" required>
             </div>
 
-            <button type="button" id="calculateBtn" class="btn">Calcular Pago Mensual</button>
+            <button type="submit" id="calculateBtn" class="btn">Calcular Pago Mensual</button>
         </form>
 
         <div id="result" class="result"></div>
+        <div id="paymentResult" class="result"></div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const creditForm = document.getElementById('creditForm');
+            const resultDiv = document.getElementById('result');
+            const paymentResultDiv = document.getElementById('paymentResult');
+
+            // Cargar datos del crédito desde el Local Storage al cargar la página
+            cargarDatos();
+
+            // Manejar evento submit del formulario
+            creditForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Evitar el envío del formulario
+
+                // Capturar valores de entrada
+                const montoCredito = parseFloat(document.getElementById('loanAmount').value);
+                const tasaInteres = parseFloat(document.getElementById('interestRate').value);
+                const plazoMeses = parseInt(document.getElementById('loanTerm').value);
+
+                // Validar datos ingresados
+                if (isNaN(montoCredito) || isNaN(tasaInteres) || isNaN(plazoMeses) || montoCredito <= 0 || tasaInteres <= 0 || plazoMeses <= 0) {
+                    resultDiv.innerHTML = '<p>Por favor ingrese valores válidos en todos los campos.</p>';
+                    return;
+                }
+
+                // Guardar datos del crédito en el Local Storage
+                const credito = {
+                    monto: montoCredito,
+                    tasaInteres: tasaInteres,
+                    plazo: plazoMeses
+                };
+                localStorage.setItem('credito', JSON.stringify(credito));
+
+                // Calcular y mostrar el resultado
+                const cuotaFija = calcularCuotaFija(montoCredito, tasaInteres, plazoMeses);
+                mostrarResultado(cuotaFija);
+            });
+
+            // Función para cargar datos del crédito desde el Local Storage
+            function cargarDatos() {
+                const creditoGuardado = localStorage.getItem('credito');
+                if (creditoGuardado) {
+                    const credito = JSON.parse(creditoGuardado);
+                    document.getElementById('loanAmount').value = credito.monto;
+                    document.getElementById('interestRate').value = credito.tasaInteres;
+                    document.getElementById('loanTerm').value = credito.plazo;
+                }
+            }
+
+            // Función para calcular la cuota fija del crédito
+            function calcularCuotaFija(monto, tasaInteres, plazo) {
+                const interesMensual = tasaInteres / 100;
+                const cuotaFija = (monto * interesMensual) / (1 - Math.pow(1 + interesMensual, -plazo));
+                return cuotaFija.toFixed(2);
+            }
+
+            // Función para mostrar el resultado en el DOM
+            function mostrarResultado(cuotaFija) {
+                paymentResultDiv.innerHTML = '';
+                paymentResultDiv.innerHTML += '<h2>Resultado:</h2>';
+                paymentResultDiv.innerHTML += '<p>Pago mensual del crédito: $' + cuotaFija + '</p>';
+            }
+        });
+    </script>
 </body>
 </html>
