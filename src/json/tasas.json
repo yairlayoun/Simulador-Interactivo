@@ -1,0 +1,16 @@
+{
+    "tasas": [
+        {
+            "nombre": "Tasa Baja",
+            "valor": 1.5
+        },
+        {
+            "nombre": "Tasa Media",
+            "valor": 3.0
+        },
+        {
+            "nombre": "Tasa Alta",
+            "valor": 4.5
+        }
+    ]
+}
