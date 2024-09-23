@@ -2,8 +2,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const creditForm = document.getElementById('creditForm');
     const resultDiv = document.getElementById('result');
     const paymentResultDiv = document.getElementById('paymentResult');
-    const paymentChart = document.getElementById('paymentChart').getContext('2d');
+    const paymentChartCtx = document.getElementById('paymentChart').getContext('2d');
     const interestRateOptions = document.getElementById('interestRateOptions');
+    let chartInstance;
 
     // Cargar datos del crédito desde el Local Storage al cargar la página
     cargarDatos();
@@ -23,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Validar datos ingresados
         if (isNaN(montoCredito) || isNaN(tasaInteres) || isNaN(plazoMeses) || montoCredito <= 0 || tasaInteres <= 0 || plazoMeses <= 0) {
-            resultDiv.innerHTML = '<p>Por favor ingrese valores válidos en todos los campos.</p>';
+            resultDiv.innerHTML = '<p class="error">Por favor ingrese valores válidos en todos los campos.</p>';
             return;
         }
 
@@ -77,9 +78,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Función para mostrar el resultado en el DOM
     function mostrarResultado(cuotaFija) {
-        paymentResultDiv.innerHTML = '';
-        paymentResultDiv.innerHTML += '<h2>Resultado:</h2>';
-        paymentResultDiv.innerHTML += '<p>Pago mensual del crédito: $' + cuotaFija + '</p>';
+        paymentResultDiv.innerHTML = `
+            <h2>Resultado:</h2>
+            <p>Pago mensual del crédito: $${cuotaFija}</p>
+        `;
     }
 
     // Función para graficar los pagos mensuales usando Chart.js
@@ -87,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const interesMensual = tasaInteres / 100;
         let saldo = monto;
         const saldos = [saldo];
-        
+
         for (let i = 0; i < plazo; i++) {
             const interes = saldo * interesMensual;
             const principal = cuotaFija - interes;
@@ -95,7 +97,12 @@ document.addEventListener("DOMContentLoaded", function() {
             saldos.push(saldo);
         }
 
-        new Chart(paymentChart, {
+        // Si ya existe una gráfica, destruirla antes de crear una nueva
+        if (chartInstance) {
+            chartInstance.destroy();
+        }
+
+        chartInstance = new Chart(paymentChartCtx, {
             type: 'line',
             data: {
                 labels: Array.from({ length: plazo + 1 }, (_, i) => i),

@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulador de Créditos</title>
+    <!-- Cargar jQuery y Chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="js/simulador.js" defer></script>
+    <!-- Cargar Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Cargar script del simulador -->
+    <script src="js/simulador.js" defer></script>
 </head>
 <body>
     <div class="container mt-5">
@@ -20,7 +23,7 @@
 
             <div class="form-group">
                 <label for="interestRate">Tasa de interés (% mensual):</label>
-                <input type="number" id="interestRate" step="0.01" class="form-control" required>
+                <input type="number" id="interestRate" step="0.01" class="form-control">
             </div>
 
             <div class="form-group">
@@ -42,9 +45,9 @@
         </form>
 
         <div id="result" class="result"></div>
-        <div id="paymentResult" class="result"></div>
+        <div id="paymentResult" class="alert alert-info mt-4"></div>
 
-        <canvas id="paymentChart" width="400" height="200"></canvas>
+        <canvas id="paymentChart" class="mt-4" width="400" height="200"></canvas>
     </div>
 </body>
 </html>
