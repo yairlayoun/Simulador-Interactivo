@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Validar datos ingresados
         if (isNaN(montoCredito) || isNaN(tasaInteres) || isNaN(plazoMeses) || montoCredito <= 0 || tasaInteres <= 0 || plazoMeses <= 0) {
-            resultDiv.innerHTML = '<p class="error">Por favor ingrese valores válidos en todos los campos.</p>';
+            resultDiv.innerHTML = '<div class="alert alert-danger">Por favor ingrese valores válidos en todos los campos.</div>';
             return;
         }
 
